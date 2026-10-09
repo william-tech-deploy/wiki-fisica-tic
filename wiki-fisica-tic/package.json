@@ -1,0 +1,17 @@
+{
+  "name": "wiki-fisica-hardware-tic",
+  "version": "1.0.0",
+  "description": "Wiki interactiva que mapea leyes físicas a componentes de hardware",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}
