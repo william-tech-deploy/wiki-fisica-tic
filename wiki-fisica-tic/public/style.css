@@ -182,3 +182,131 @@ input:focus, select:focus { border-color: var(--accent); }
 @media (max-width: 420px) {
   .grid-container { grid-template-columns: 1fr; }
 }
+
+/* ---------- Pestañas ---------- */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  font: 600 0.95rem 'Inter', sans-serif;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text-primary); }
+.tab.activa { color: var(--accent); border-bottom-color: var(--accent); }
+[hidden] { display: none !important; }
+.intro-vista { color: var(--text-secondary); max-width: 70ch; margin-bottom: 1.5rem; }
+
+/* ---------- Componentes animados ---------- */
+.grid-componentes { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.card-componente { gap: 0.8rem; }
+.figura-mini {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  display: block;
+}
+.figura-pendiente {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--border-color);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* ---------- Vista ampliada ---------- */
+.modal-content.modal-ancho { max-width: 960px; }
+.ampliar-titulo { color: var(--accent); margin-bottom: 0.4rem; padding-right: 2rem; }
+.figura-grande {
+  width: min(100%, 72vh * 1.3333);
+  aspect-ratio: 4 / 3;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.ampliar-desc { color: var(--text-secondary); margin-bottom: 1.2rem; }
+.ampliar-relacion {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+.ampliar-relacion h4 { color: #f8fafc; margin-bottom: 0.4rem; }
+.ampliar-relacion p { color: var(--text-secondary); margin-top: 0.4rem; font-size: 0.92rem; }
+.ampliar-relacion strong { color: #f1f5f9; }
+.btn-calc {
+  margin-top: 0.7rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font: 600 0.85rem 'Inter', sans-serif;
+  cursor: pointer;
+}
+.btn-calc:hover { background: var(--accent); color: var(--bg-primary); }
+
+/* ---------- Calculadoras ---------- */
+.calc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+.calc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.calc-card.resaltada { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow), 0 0 24px var(--accent-glow); }
+.calc-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+.calc-desc { color: var(--text-secondary); font-size: 0.88rem; }
+.calc-form { display: flex; flex-direction: column; gap: 0.6rem; }
+.calc-form label { display: flex; flex-direction: column; gap: 0.2rem; }
+.calc-etiqueta { font-size: 0.82rem; color: var(--text-secondary); }
+.calc-input { display: flex; align-items: center; gap: 0.5rem; }
+.calc-input input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font: 0.95rem 'JetBrains Mono', monospace;
+  padding: 0.45rem 0.6rem;
+}
+.calc-unidad { min-width: 2.6rem; color: var(--text-secondary); font-size: 0.85rem; }
+.calc-resultados {
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: auto;
+}
+.calc-fila { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.9rem; color: var(--text-secondary); }
+.calc-fila strong { color: var(--accent); font-family: 'JetBrains Mono', monospace; text-align: right; }
+.calc-error { color: #fca5a5; font-size: 0.88rem; }
+
+@media (max-width: 420px) {
+  .grid-componentes, .calc-grid { grid-template-columns: 1fr; }
+  .modal-content { padding: 1.25rem; }
+}
