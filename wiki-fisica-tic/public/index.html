@@ -17,35 +17,66 @@
     </div>
   </header>
 
+  <!-- Pestañas de las tres vistas -->
+  <nav class="container tabs" role="tablist" aria-label="Secciones de la wiki">
+    <button class="tab activa" role="tab" id="tab-relaciones" data-vista="relaciones" aria-selected="true" aria-controls="vista-relaciones">Relaciones</button>
+    <button class="tab" role="tab" id="tab-componentes" data-vista="componentes" aria-selected="false" aria-controls="vista-componentes" tabindex="-1">Componentes animados</button>
+    <button class="tab" role="tab" id="tab-calculadoras" data-vista="calculadoras" aria-selected="false" aria-controls="vista-calculadoras" tabindex="-1">Calculadoras</button>
+  </nav>
+
   <main class="container">
-    <!-- Panel de búsqueda y filtro -->
-    <section class="controls-panel">
-      <div class="search-box">
-        <input type="text" id="searchInput" aria-label="Buscar" placeholder="Buscar por ley, componente o principio (ej. Joule, DRAM, VRM)">
-      </div>
-      <div class="filter-box">
-        <label for="categoryFilter">Categoría física:</label>
-        <select id="categoryFilter">
-          <option value="Todas">Todas las áreas</option>
-        </select>
-      </div>
+    <!-- Vista 1: relaciones ley ↔ componente (la original) -->
+    <section id="vista-relaciones" role="tabpanel" aria-labelledby="tab-relaciones">
+      <section class="controls-panel">
+        <div class="search-box">
+          <input type="text" id="searchInput" aria-label="Buscar" placeholder="Buscar por ley, componente o principio (ej. Joule, DRAM, VRM)">
+        </div>
+        <div class="filter-box">
+          <label for="categoryFilter">Categoría física:</label>
+          <select id="categoryFilter">
+            <option value="Todas">Todas las áreas</option>
+          </select>
+        </div>
+      </section>
+
+      <div id="loadingStatus" class="status-msg" role="status">Cargando registros científicos...</div>
+      <section id="cardsGrid" class="grid-container"></section>
     </section>
 
-    <!-- Mensaje de estado (carga / error) -->
-    <div id="loadingStatus" class="status-msg" role="status">Cargando registros científicos...</div>
+    <!-- Vista 2: componentes con su animación y vista ampliada -->
+    <section id="vista-componentes" role="tabpanel" aria-labelledby="tab-componentes" hidden>
+      <p class="intro-vista">Cada componente es una máquina que se mueve con su física real. Pasa el cursor sobre la figura para cambiar sus condiciones y pulsa «Ampliar» para ver la explicación completa.</p>
+      <div id="componentesStatus" class="status-msg" role="status">Cargando componentes...</div>
+      <div id="componentesGrid" class="grid-container grid-componentes"></div>
+    </section>
 
-    <!-- Rejilla de tarjetas -->
-    <section id="cardsGrid" class="grid-container"></section>
+    <!-- Vista 3: calculadoras por ley -->
+    <section id="vista-calculadoras" role="tabpanel" aria-labelledby="tab-calculadoras" hidden>
+      <p class="intro-vista">Calculadoras de las leyes físicas de la wiki. Cambia un dato y el resultado se actualiza al instante. Los valores iniciales son de ejemplo, de componentes reales.</p>
+      <div id="calcGrid" class="calc-grid"></div>
+    </section>
   </main>
 
-  <!-- Ventana de detalle técnico -->
-  <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Detalle técnico">
+  <!-- Ventana de detalles técnicos (relaciones) -->
+  <div id="detailModal" class="modal hidden">
     <div class="modal-content">
       <button class="close-modal" id="closeModalBtn" aria-label="Cerrar">&times;</button>
       <div id="modalBody"></div>
     </div>
   </div>
 
+  <!-- Vista ampliada de un componente -->
+  <div id="ampliarModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Componente ampliado">
+    <div class="modal-content modal-ancho">
+      <button class="close-modal" id="closeAmpliarBtn" aria-label="Cerrar">&times;</button>
+      <div id="ampliarBody"></div>
+    </div>
+  </div>
+
+  <script src="fisica.js"></script>
+  <script src="calculadoras.js"></script>
+  <script src="componentes.js"></script>
+  <script src="vistas.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

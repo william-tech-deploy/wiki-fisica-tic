@@ -9,6 +9,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const db = require('./database');
 
 const app = express();
@@ -83,6 +84,73 @@ app.get('/api/categorias', (req, res) => {
       return res.status(500).json({ error: 'Error al consultar la base de datos', detalle: err.message });
     }
     res.json(rows.map((r) => r.categoria));
+  });
+});
+
+/**
+ * GET /api/componentes
+ * Cada componente de hardware con sus relaciones y, si existe, la dirección de
+ * su figura animada (carpeta public/figuras, generada con npm run figuras).
+ * La figura y la calculadora se buscan por palabras del nombre, así que no hace
+ * falta cambiar la base de datos.
+ */
+const FIGURAS = [
+  ['Disipador', 'disipador'],
+  ['Regulador', 'vrm'],
+  ['DRAM', 'dram'],
+  ['Fuente', 'fuente'],
+];
+const CALCULADORAS = [
+  ['Joule', 'joule'],
+  ['Ohm', 'ohm'],
+  ['Capacitancia', 'capacitancia'],
+  ['Faraday', 'faraday'],
+];
+const buscarClave = (lista, nombre) => {
+  const par = lista.find(([palabra]) => nombre.includes(palabra));
+  return par ? par[1] : null;
+};
+
+app.get('/api/componentes', (req, res) => {
+  db.all(`SELECT id, nombre, categoria, descripcion_tecnica FROM componentes_hardware ORDER BY id ASC`, [], (err, componentes) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al consultar la base de datos', detalle: err.message });
+    }
+    const consultaRelaciones = `
+      SELECT r.hardware_id, r.id AS relacion_id, l.nombre AS ley_nombre, l.formula AS ley_formula,
+             l.categoria AS ley_categoria, r.principio_aplicacion, r.impacto_ingenieria
+      FROM relaciones_fisica_hardware r
+      INNER JOIN leyes_fisicas l ON r.ley_id = l.id
+      ORDER BY l.nombre ASC`;
+    db.all(consultaRelaciones, [], (err2, relaciones) => {
+      if (err2) {
+        return res.status(500).json({ error: 'Error al consultar la base de datos', detalle: err2.message });
+      }
+      const resultado = componentes.map((c) => {
+        const clave = buscarClave(FIGURAS, c.nombre);
+        const archivo = clave ? path.join(__dirname, 'public', 'figuras', `${clave}.html`) : null;
+        return {
+          id: c.id,
+          nombre: c.nombre,
+          categoria: c.categoria,
+          descripcion: c.descripcion_tecnica,
+          clave,
+          figura: archivo && fs.existsSync(archivo) ? `/figuras/${clave}.html` : null,
+          relaciones: relaciones
+            .filter((r) => r.hardware_id === c.id)
+            .map((r) => ({
+              relacion_id: r.relacion_id,
+              ley_nombre: r.ley_nombre,
+              ley_formula: r.ley_formula,
+              ley_categoria: r.ley_categoria,
+              principio_aplicacion: r.principio_aplicacion,
+              impacto_ingenieria: r.impacto_ingenieria,
+              calculadora: buscarClave(CALCULADORAS, r.ley_nombre),
+            })),
+        };
+      });
+      res.json(resultado);
+    });
   });
 });
 

@@ -4,7 +4,9 @@
   "description": "Wiki interactiva que mapea leyes físicas a componentes de hardware",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test",
+    "figuras": "node figuras/build.mjs"
   },
   "engines": {
     "node": ">=18"
